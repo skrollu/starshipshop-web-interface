@@ -6,7 +6,7 @@ function HeroBanner() {
 	return (
 		<div id="hero-banner">
 			<h1>StarShipShop</h1>
-			<h2>World premiere starship ecommerce website</h2>
+			<h2>World premiere <span className="highlighted">starship</span> ecommerce website</h2>
 			<div>
 				<Button text="Order Now" />
 			</div>
