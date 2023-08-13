@@ -1,6 +1,6 @@
 import "./App.sass";
-import Header from "./components/header.tsx";
-import HeroBanner from "./components/heroBanner.tsx";
+import Header from "./shared/layout/header/header.tsx";
+import HeroBanner from "./shared/layout/header/heroBanner.tsx";
 
 function App() {
 	return (

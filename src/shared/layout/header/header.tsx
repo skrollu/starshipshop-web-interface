@@ -1,8 +1,8 @@
 import React from "react";
 import "./header.sass";
-import appLogo from "../assets/images/app_logo.svg";
-import accountLogo from "../assets/images/account_logo.svg";
-import cartLogo from "../assets/images/cart_logo.svg";
+import appLogo from "../../../assets/images/app_logo.svg"
+import accountLogo from "../../../assets/images/account_logo.svg";
+import cartLogo from "../../../assets/images/cart_logo.svg";
 
 function Header() {
 	return (

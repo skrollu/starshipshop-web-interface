@@ -1,6 +1,6 @@
 import React from "react";
 import "./heroBanner.sass";
-import Button from "./button";
+import Button from "../button/button";
 
 function HeroBanner() {
 	return (
