@@ -6,7 +6,7 @@ type Props = {
 };
 
 function Button({ text }: Props) {
-	return <button>{text}</button>;
+	return <button className="btn">{text}</button>;
 }
 
 export default Button;
