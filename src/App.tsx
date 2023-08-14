@@ -1,5 +1,5 @@
 import "./App.sass";
-import FilterBar from "./shared/layout/filter-bar/Filter.tsx";
+import {FilterBar, FilterDialog } from "./shared/layout/filter-bar/filter-components.tsx";
 import Header from "./shared/layout/header/header.tsx";
 import HeroBanner from "./shared/layout/header/heroBanner.tsx";
 
@@ -12,6 +12,7 @@ function App() {
                 <div className="center">
                     <FilterBar />
                 </div>
+                    <FilterDialog />
             </div>
         </>
     );
