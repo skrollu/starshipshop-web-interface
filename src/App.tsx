@@ -1,41 +1,50 @@
-import { useKeycloak } from "@react-keycloak/web";
 import "./App.sass";
-import { FilterBar, FilterDialog } from "./shared/layout/filter-bar/filter-components.tsx";
-import Header from "./shared/layout/header/header.tsx";
-import HeroBanner from "./shared/layout/header/heroBanner.tsx";
 
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "./config/store.ts";
+import { fetchStarships } from "./features/starshipSlice.ts";
+import { Starship } from "./models/starship.ts"
 
-function App() {
-    const [data, setData] = useState();
-
-    const getData = async () => {
-        axios.get("http://localhost:9103/api/v1/products/starship").then(data => {
-            console.log(data);
-            setData(data as any);
-        }).catch(error => {
-            console.log("Error occured", error);
-        })
-        // https://jsonplaceholder.typicode.com/todos/1
-    };
+const LandingPage: React.FC = () => {
+    const dispatch = useDispatch();
+    const starships: Starship[] = useSelector((state: RootState) => state.starship.starships);
 
     useEffect(() => {
-        getData();
-    }, []);
+        dispatch(fetchStarships());
+    }, [dispatch]);
+
+    // if (loading) {
+    //     return <div>Loading...</div>;
+    // }
+
+    // if (error) {
+    //     return <div>Error: {error}</div>;
+    // }
 
     return (
-        <>
-            <Header />
-            <HeroBanner />
-            <div className="filter-container">
-                <div className="center">
-                    <FilterBar />
-                </div>
-                <FilterDialog />
-            </div>
-        </>
+        <div>
+            <h1>Landing Page</h1>
+            <ul>
+                {starships.map((item) => (
+                    <li>{item.name}</li>
+                ))}
+            </ul>
+        </div >
     );
+
+    // return (
+    //     <>
+    //         <Header />
+    //         <HeroBanner />
+    //         <div className="filter-container">
+    //             <div className="center">
+    //                 <FilterBar />
+    //             </div>
+    //             <FilterDialog />
+    //         </div>
+    //     </>
+    // );
 }
 
-export default App;
+export default LandingPage;
