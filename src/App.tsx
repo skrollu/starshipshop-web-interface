@@ -1,34 +1,32 @@
 import "./App.sass";
 
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "./config/store.ts";
-import { fetchStarships } from "./features/starshipSlice.ts";
-import { Starship } from "./models/starship.ts"
+import { useAppDispatch, useAppSelector } from "./config/store.ts";
+import { fetchStarshipsAsyncThunk } from "./features/starshipSlice.ts";
 
 const LandingPage: React.FC = () => {
-    const dispatch = useDispatch();
-    const starships: Starship[] = useSelector((state: RootState) => state.starship.starships);
+    const { starshipsPage, loading } = useAppSelector((state) => state.starship);
+    const dispatch = useAppDispatch();
 
     useEffect(() => {
-        dispatch(fetchStarships());
-    }, [dispatch]);
-
-    // if (loading) {
-    //     return <div>Loading...</div>;
-    // }
-
-    // if (error) {
-    //     return <div>Error: {error}</div>;
-    // }
+        dispatch(fetchStarshipsAsyncThunk());
+    }, []);
 
     return (
         <div>
             <h1>Landing Page</h1>
             <ul>
-                {starships.map((item) => (
-                    <li>{item.name}</li>
-                ))}
+                <>
+                    {loading ?
+                        "...loading"
+                        :
+                        <ul>
+                            {
+                                starshipsPage.content.map((starship) => <li key={starship.id}>{starship.description}</li>)
+                            }
+                        </ul>
+                    }
+                </>
             </ul>
         </div >
     );

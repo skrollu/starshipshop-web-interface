@@ -1,17 +1,51 @@
-import { createAsyncThunk, createSlice, PayloadAction, ThunkDispatch } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { Starship } from '../models/starship';
-import { AppDispatch, AppThunk } from '../config/store';
 
+interface Page<T> {
+    content: T[];
+    pageable: {
+        sort: {
+            sorted: boolean;
+            unsorted: boolean;
+        };
+        offset: number;
+        pageNumber: number;
+        pageSize: number;
+        paged: boolean;
+        unpaged: boolean;
+    };
+    totalPages: number;
+    totalElements: number;
+    last: boolean;
+    first: boolean;
+}
 
+const defaultPage: Page<Starship> = {
+    content: [],
+    pageable: {
+        sort: {
+            sorted: false,
+            unsorted: true,
+        },
+        offset: 0,
+        pageNumber: 0,
+        pageSize: 0,
+        paged: false,
+        unpaged: true,
+    },
+    totalPages: 0,
+    totalElements: 0,
+    last: false,
+    first: false
+};
 export interface StarshipState {
-    starships: Starship[];
+    starshipsPage: Page<Starship>;
     loading: boolean;
     error: string | null;
 }
 
 const initialState: StarshipState = {
-    starships: [],
+    starshipsPage: defaultPage,
     loading: false,
     error: null,
 };
@@ -19,34 +53,24 @@ const initialState: StarshipState = {
 const starshipSlice = createSlice({
     name: 'starships',
     initialState,
-    reducers: {
-        fetchStarshipsStart(state) {
+    reducers: {},
+    extraReducers: (builder) => {
+        builder.addCase(fetchStarshipsAsyncThunk.pending, (state) => {
             state.loading = true;
-            state.error = null;
-        },
-        fetchStarshipsSuccess(state, action: PayloadAction<Starship[]>) {
+        });
+        builder.addCase(fetchStarshipsAsyncThunk.fulfilled, (state, action) => {
+            state.starshipsPage = action.payload;
             state.loading = false;
-            state.starships = action.payload;
-        },
-        fetchStarshipsFailure(state, action: PayloadAction<string | null>) {
+        });
+        builder.addCase(fetchStarshipsAsyncThunk.rejected, (state) => {
             state.loading = false;
-            state.error = action.payload;
-        },
-    },
+        });
+    }
 });
-
-export const { fetchStarshipsStart, fetchStarshipsSuccess, fetchStarshipsFailure } = starshipSlice.actions;
 
 export default starshipSlice.reducer;
 
-// Thunk for fetching data
-export const fetchStarships = (): AppThunk => async (dispatch) => {
-    dispatch(fetchStarshipsStart());
-    axios.get<Starship[]>('http://localhost:9103/api/v1/products/starship')
-        .then(response => {
-            dispatch(fetchStarshipsSuccess(response.data));
-        })
-        .catch((error) => {
-            dispatch(fetchStarshipsFailure(error.message));
-        });
-};
+export const fetchStarshipsAsyncThunk = createAsyncThunk('fetch/starships', async (): Promise<Page<Starship>> => {
+    const response = await fetch("http://localhost:9103/api/v1/products/starship");
+    return await response.json();
+})
