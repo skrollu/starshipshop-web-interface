@@ -6,6 +6,7 @@ import { fetchStarshipsAsyncThunk } from "./features/starshipSlice.ts";
 import { FilterBar } from "./shared/layout/filter-bar/filter-components.tsx";
 import Header from "./shared/layout/header/header.tsx";
 import HeroBanner from "./shared/layout/header/heroBanner.tsx";
+import StarshipCard from "./modules/starship/starship-card.tsx";
 
 const LandingPage: React.FC = () => {
     const { starshipsPage, loading } = useAppSelector((state) => state.starship);
@@ -29,7 +30,8 @@ const LandingPage: React.FC = () => {
                         :
                         <ul>
                             {
-                                starshipsPage.content.map((starship) => <li key={starship.id}>{starship.description}</li>)
+                                starshipsPage.content.map((starship) =>
+                                    <li key={starship.id}><StarshipCard starship={starship} /></li>)
                             }
                         </ul>
                     }

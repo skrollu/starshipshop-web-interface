@@ -1,8 +1,7 @@
-import React from "react";
 import "./filter-components.sass";
 import arrowDown from "../../../assets/images/arrow-down.svg";
 import filterIcon from "../../../assets/images/filter-icon.svg";
-import empireIcon from "../../../assets/images/empire.svg";
+import empireIcon from "../../../assets/images/empire-icon.svg";
 import rebelsIcon from "../../../assets/images/rebels.svg";
 
 export const FilterBar = () => (
@@ -71,9 +70,6 @@ type FilterIconProps = {
 };
 
 function FilterIcon({ iconUrl }: FilterIconProps) {
-
-
-
     return (
         <div className="filter-icon">
             <button>

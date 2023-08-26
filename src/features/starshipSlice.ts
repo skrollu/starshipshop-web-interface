@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
-import { Starship } from '../models/starship';
+import { Starship } from '../shared/models/starship';
 
 interface Page<T> {
     content: T[];
